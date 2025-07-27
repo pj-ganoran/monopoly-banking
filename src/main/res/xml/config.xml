@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="com.bonez.banker" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <feature name="NfcPlugin">
+        <param name="android-package" value="com.chariotsolutions.nfc.plugin.NfcPlugin" />
+        <param name="onload" value="true" />
+    </feature>
+    <name>Monopoly Banking</name>
+    <description>Monopoly Banking application made for mobile with NFC capabilities</description>
+    <author email="ganoranpheljohn@gmail.com" href="https://github.com/pj-ganoran">
+        Phel John Ganoran
+    </author>
+    <content src="index.html" />
+    <allow-intent href="http://*/*" />
+    <allow-intent href="https://*/*" />
+    <icon src="res/icon.png" />
+    <icon density="ldpi" src="res/icons/ldpi.png" />
+    <icon density="mdpi" src="res/icons/mdpi.png" />
+    <icon density="hdpi" src="res/icons/hdpi.png" />
+    <icon density="xhdpi" src="res/icons/xhdpi.png" />
+    <icon density="xxhdpi" src="res/icons/xxhdpi.png" />
+    <icon density="xxxhdpi" src="res/icons/xxxhdpi.png" />
+    <preference name="loglevel" value="DEBUG" />
+    <preference name="AndroidWindowSplashScreenAnimatedIcon" value="res/splash.xml" />
+    <preference name="android-manifest/application/android:theme" value="@android:style/Theme.NoTitleBar.Fullscreen" />
+    <preference name="FadeSplashScreenDuration" value="0" />
+    <preference name="SplashScreen" value="none" />
+    <preference name="AutoHideSplashScreen" value="true" />
+    <preference name="ShowSplashScreenSpinner" value="false" />
+</widget>

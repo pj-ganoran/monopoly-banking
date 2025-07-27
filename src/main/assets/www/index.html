@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <meta charset="utf-8">
+      <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content:;">
+      <meta name="format-detection" content="telephone=no">
+      <meta name="msapplication-tap-highlight" content="no">
+      <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">
+      <meta name="color-scheme" content="light dark">
+      <link rel="stylesheet" href="css/index.css">
+      <title>Monopoly Banking</title>
+   </head>
+   <body>
+      <div id="background"></div>
+      <div id="blur"></div>
+      <div id="topbar">
+         <img src="assets/images/monopoly.png">
+      </div>
+      <div id="scanCard">
+         <div>
+            <img src="assets/images/scan.png">
+            <p id="scanStatus">Waiting for scan...</p>
+         </div>
+         <div>
+            <table>
+               <tr>
+                  <td><button id="scanClear">CLEAR SCANNER</button></td>
+                  <td><button id="bank" disabled>BANK</button></td>
+               </tr>
+               <tr>
+                  <td colspan="2"><button id="resetBtn">RESET</button></td>
+               </tr>
+            </table>
+         </div>
+         <div></div>
+      </div>
+      <div id="playerStat">
+         <div class="stat">
+            <table cellspacing="0">
+               <tr>
+                  <td>Player Name</td>
+                  <td id="playerName">:  - - - </td>
+               </tr>
+               <tr>
+                  <td>Cash</td>
+                  <td id="playerCash">: $ - - - </td>
+               </tr>
+               <tr>
+                  <td>Properties Owned</td>
+                  <td id="playerProperties"><select id="ownedproperties"><option disabled>- - -</option></select></td>
+               </tr>
+            </table>
+         </div>
+         <table>
+            <tr>
+               <th>
+                  <div id="properties">
+                     <select name="properties" id="property" disabled>
+                        <option value="0">- Select Property -</option>
+                        <option value="1">Old Kent Road</option>
+                        <option value="2">Whitechapel Road</option>
+                        <option value="3">The Angel Islington</option>
+                        <option value="4">Euston Road</option>
+                        <option value="5">Pentonville Road</option>
+                        <option value="6">Pall Mall</option>
+                        <option value="7">White Hall</option>
+                        <option value="8">Northumberland Avenue</option>
+                        <option value="9">Bow Street</option>
+                        <option value="10">Marlborough Street</option>
+                        <option value="11">Vine Street</option>
+                        <option value="12">The Strand</option>
+                        <option value="13">Fleet Street</option>
+                        <option value="14">Trafalgar Square</option>
+                        <option value="15">Leicester Square</option>
+                        <option value="16">Coventry Street</option>
+                        <option value="17">Piccadilly</option>
+                        <option value="18">Regent Street</option>
+                        <option value="19">Oxford Street</option>
+                        <option value="20">Bond Street</option>
+                        <option value="21">Park Lane</option>
+                        <option value="22">Mayfair</option>
+                     </select>
+                  </div>
+               </th>
+               <th>
+                  <div id="utilities">
+                     <select name="utilities" id="utility" disabled>
+                        <option value="0">- Select Utility -</option>
+                        <option value="1">Electric Company</option>
+                        <option value="2">Water Works</option>
+                     </select>
+                  </div>
+               </th>
+               <th>
+                  <div id="stations">
+                     <select name="stations" id="station" disabled>
+                        <option value="0">- Select Station -</option>
+                        <option value="1">King's Cross Station</option>
+                        <option value="2">Marylebone Station</option>
+                        <option value="3">Fenchurch St Station</option>
+                        <option value="4">Liverpool Street Station</option>
+                     </select>
+                  </div>
+               </th>
+            </tr>
+         </table>
+      </div>
+      <div id="cardInfo">
+         <div id="cardContainer">
+            <div id="propertyCard">
+               <div class="landName">---</div>
+               <div class="landStat">
+                  <table>
+                     <tr align="right">
+                        <th colspan="2">TITLE DEED                         $</th>
+                     </tr>
+                     <tr>
+                        <td>RENT     SITE ONLY</td><td align="right" id="rentVal">0</td>                        
+                     </tr>
+                     <tr>
+                        <td>   ..  with 1 house</td><td align="right" id="rent1Val">0</td>
+                     </tr>
+                     <tr>
+                        <td>   ..  with 2 house</td><td align="right" id="rent2Val">0</td>
+                     </tr>
+                     <tr>
+                        <td>   ..  with 3 house</td><td align="right" id="rent3Val">0</td>
+                     </tr>
+                     <tr>
+                        <td>   ..  with 4 house</td><td align="right" id="rent4Val">0</td>
+                     </tr>
+                     <tr>
+                        <td>RENT WITH HOTEL</td><td align="right" id="rent5Val">0</td>
+                     </tr>
+                     <tr>
+                        <td colspan="2"><p>     If a player owns all the sites of any<br>color group, the rent is doubled on<br>unimproved sites in that group.</p></td>
+                     </tr>
+                     <tr>
+                        <td>   Cost of houses</td><td align="right" id="housePrice"> $ 0 each</td>
+                     </tr>
+                     <tr>
+                        <td>   Cost of hotels</td><td align="right" id="hotelPrice"> $ 0 plus<br>4 houses</td>
+                     </tr>
+                     <tr>
+                        <td>   Mortgage Value<br>   of site</td><td align="right" id="mortgagePrice"> $ 0</td>
+                     </tr>
+                  </table>
+               </div>
+            </div>
+            <div id="stationCard">
+               <div class="stationName">---</div>
+               <div class="stationStat">
+                  <table cellspacing="15px">
+                     <tr>
+                        <td colspan="2">   BRITISH RAILWAYS</td>
+                     </tr>
+                     <tr>
+                        <td>RENT</td><td align="right">$   250</td>
+                     </tr>
+                     <tr>
+                        <td>If 2 stations are owned</td><td align="right">$   500</td>
+                     </tr>
+                     <tr>
+                        <td>If 2 stations are owned</td><td align="right">$ 1000</td>
+                     </tr>
+                     <tr>
+                        <td>If 2 stations are owned</td><td align="right">$ 2000</td>
+                     </tr>
+                     <tr>
+                        <td colspan="2"><hr></td>
+                     </tr>
+                     <tr>
+                        <td colspan="2" align="center">Mortgage Value -$1000</td>
+                     </tr>
+                  </table>
+               </div>
+            </div>
+            <div id="utilityCard">
+               <div class="utilityName">---</div>
+               <div class="utilityStat">
+                  <table cellspacing="15px">
+                     <tr>
+                        <td id="imgUtil" align="center"><img src="" id="util"></td>
+                     </tr>
+                     <tr>
+                        <td>If one "Utility" is owned, rent<br>is 4 times amount shown<br>on dice</td>
+                     </tr>
+                     <tr></tr>
+                     <tr>
+                        <td colspan="2"><hr></td>
+                     </tr>
+                     <tr>
+                        <td align="center">Mortgage Value -$1000</td>
+                     </tr>
+                  </table>
+               </div>
+            </div>
+         </div>
+         <div id="info">
+            <table cellspacing="0">
+               <tr>
+                  <td>PROPERTY OWNER:</td>
+                  <td align="right" id="owner">- - -   </td>
+               </tr>
+               <tr>
+                  <td>DEVELOPMENT:</td>
+                  <td align="right" id="development">- - -   </td>
+               </tr>
+               <tr>
+                  <td>RENT VALUE:</td>
+                  <td align="right" id="rent">$ - - -   </td>
+               </tr>
+               <tr>
+                  <td>MORTGAGED:</td>
+                  <td align="right" id="mortgaged">- - -   </td>
+               </tr>
+               <tr>
+                  <td>MONOPLIZED:</td>
+                  <td align="right" id="monopolized">- - -   </td>
+               </tr>
+               <tr>
+                  <td>PROPERTY VALUE:</td>
+                  <td align="right" id="propertyVal">$ - - -   </td>
+               </tr>
+            </table>
+            <table id="choices">
+               <tr>
+                  <td><button id="purchase" disabled>PURCHASE</button></td>
+                  <td><button id="payment" disabled>PAY RENT</button></td>
+               </tr>
+               <tr>
+                  <td><button id="mortgage" disabled>MORTGAGE</button></td>
+                  <td><button id="trade" disabled>TRADE OFF</button></td>
+               </tr>
+               <tr>
+                  <td><button id="upgrade" disabled>UPGRADE</button></td>
+                  <td><button id="sell" disabled>SELL</button></td>
+               </tr>
+            </table>
+         </div>
+      </div>
+      <div id="dialogueContainer">
+         <div id="dialogueBox">
+            <span id="dialogueText" align="center">- - -</span>
+            <div id="tradeSelectContainer">
+               <select name="trades" id="tradeSelect">
+                     <option value="0">- Select Property -</option>
+                </select>
+            </div>
+            <div id="ask">
+               <button id="dialogueYes">CONFIRM</button>
+               <button id="dialogueNo">CLOSE</button>
+            </div>
+            <div id="alert">
+               <button id="dialogueConfirm">OK</button>
+            </div>
+            <div id="write">
+               <input type="text"id="userID" placeholder="ENTER USERNAME">
+               <button id="dialogueWrite">WRITE</button>
+            </div>
+            <div id="bankDialogue">
+                <input type="number" id="dialogueNumber" placeholder="ENTER AMOUNT">
+                <div><span id="bankFeedback">---</span></div>
+                <div>
+                  <button id="dialogueAdd" disabled>CREDIT</button>
+                  <button id="dialogueSubtract" disabled>CHARGE</button>
+                </div>
+                <div>
+                  <button id="dialogueGo">PASSED GO</button>
+                </div>
+                <div id="closeBtn">
+                  <button id="dialogueBack">✖</button>
+                </div>
+            </div>
+            <div id="playerAmount">
+                <select name="playerCount" id="playerselect">
+                    <option value="2">- Select Player Amount -</option>
+                    <option value="2">- 2 Players -</option>
+                    <option value="3">- 3 Players -</option>
+                    <option value="4">- 4 Players -</option>
+                    <option value="5">- 5 Players -</option>
+                    <option value="6">- 6 Players -</option>
+                    <option value="7">- 7 Players -</option>
+                    <option value="8">- 8 Players -</option>
+                </select>
+            </div>
+         </div>
+         <div id="scanWrite">
+            <img src="assets/images/scan.png">
+            <p id="scanTextFeedback">Waiting for scan...</p>
+         </div>
+      </div>
+      <script src="cordova.js"></script>
+      <script src="js/index.js"></script>
+   </body>
+</html>

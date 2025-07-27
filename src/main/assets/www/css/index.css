@@ -1,0 +1,406 @@
+@font-face {
+  font-family: 'Century';
+  src: url('../assets/fonts/GOTHIC.TTF') format('truetype');
+}
+@font-face {
+  font-family: 'BoldCentury';
+  src: url('../assets/fonts/GOTHICB.TTF') format('truetype');
+}
+@media (min-width: 320px) {
+    body {
+        overflow: hidden;
+        font-family: Century;
+        font-weight: bold;
+        user-select: none;
+        max-width: 100%;
+        overflow-x: hidden;
+    }
+    button {
+        font-family: Century;
+        font-size: 10px;
+    }
+    #background {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url("../assets/images/bg.png");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        filter: blur(5px);
+        z-index: -2;
+    }
+
+    #blur {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(255, 0, 0, 0.75);
+        z-index: -1;
+    }
+
+    #topbar {
+        display: flex;
+        justify-content: center;
+    }
+    img {
+        width: 100%;
+    }
+
+    #playerStat {
+        position: relative;
+        margin-top: 2px;
+        left: 0px;
+        width: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        visibility: visible;
+    }
+
+    select {
+        font-family: Century;
+        font-weight: bold;
+        color: azure;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0);
+        border-radius: 4px;
+        width: 100%;
+        padding: 5px;
+        display: flex;
+        justify-content: center;
+        text-align: center;
+        background-color: transparent;
+        border-color: azure;
+        border-width: 3px;
+        font-size: 10px;
+    }
+
+    option {
+        color: black;
+    }
+    table {
+        width: 100%;
+        border: 2px white;
+        table-layout: fixed;
+        color: black;
+        font-size: 10px;
+    }
+    #cardContainer {
+        width: 120px;
+        height: 180px;
+    }
+    #propertyCard, #stationCard, #utilityCard {
+        background-color: white;
+        width: 200px;
+        height: 300px;
+        border: 2px white solid;
+        outline: 1px solid black;
+        display: none;
+        align-items: center; /* horizontal center */
+        flex-direction: column;
+        transform-origin: top left;
+        transform: scale(0.6);
+        visibility: visible;
+    }
+    #propertyCard {
+        display: flex;
+        visibility: hidden;
+    }
+    .landName, .stationName, .utilityName {
+        font-family: BoldCentury;
+        border: 2px white solid;
+        width: 95%;
+        height: 50px;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: azure;
+        background-color: gray;
+        font-size: 18px;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0);
+    }
+
+    .stationName, .utilityName {
+        background-color: white;
+        border: 2px black solid;
+        color: black;
+    }
+    .landStat, .stationStat, .utilityStat{
+        white-space: pre;
+        border: 2px black solid;
+        font-size: 8px;
+        width: 95%;
+        display: flex;
+        align-items: center; /* horizontal center */
+        flex-direction: column;
+        height: 95%;
+    }
+    .stationStat, .utilityStat {
+        font-size: 8px;
+    }
+    #util {
+        width: 70px;
+    }
+
+    .utilityStat table tr td {
+        width: 100%;
+        font-size: 10px;
+    }
+    #info {
+        white-space: pre;
+        border: 1px black solid;
+        width:auto;
+        flex: 1;
+        display: flex;
+        align-items: center; /* horizontal center */
+        flex-direction: column;
+    }
+    #cardInfo {
+        border: 2px white solid;
+        margin-top: 2px;
+        display: flex;
+        flex-direction: row;
+        background-color: white;
+    }
+
+    #info table, #info th, #info td {
+        border: 1px solid black;
+        font-size: 9px;
+    }
+
+    table#choices, #info table#choices th, #info table#choices td {
+        border: none;
+        font-size: 10px;
+    }
+
+    table#choices {
+        margin-top: 5px;
+        font-size: 10px;
+    }
+
+    button {
+        background-color: red;
+        color: white;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0);
+        font-weight: bold;
+        border-radius: 5px;
+        padding: 3px;
+        width: 100%
+    }
+    button:hover {
+        background-color: rgb(252, 30, 30);
+    }
+    button:active {
+        background-color: darkred;
+    }
+    button:disabled {
+        background-color: rgb(133, 133, 133);
+        color: darkgrey;
+    }
+
+    .stat {
+        white-space: pre;
+        background-color: white;
+        padding: 2px;
+        border-radius: 2px;
+        display: flex;
+        align-items: center; /* horizontal center */
+        flex-direction: column;
+    }
+
+    .stat table,.stat table td {
+        border: solid 1px black;
+        font-size: 10px;
+    }
+
+    #scanCard {
+        margin-top: 2px;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        height: 150px;
+        gap: 2px;
+        background-color: rgba(0, 0, 0, 0.5);
+        border-radius: 3px;
+    }
+
+    #scanCard div{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 10px;
+    }
+    #scanCard div button {
+        width: 100%;
+        border: 2px solid white;
+    }
+    #scanCard img {
+        width: 90px;
+    }
+    #dialogueContainer {
+        position: absolute;
+        left:0px;
+        top:0px;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(5px);
+        z-index: 3;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: black;
+    }
+    #dialogueBox {
+        font-size: 12px;
+        outline: 2px solid white;
+        border-radius: 5px;
+        background-color: antiquewhite;
+        height: 150px;
+        width: 300px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        animation: pop ease-in-out 0.3s;
+    }
+
+    #dialogueBox button {
+        border-color: rgba(0, 0, 0, 0.5);
+        width: calc(300px*0.45);
+    }
+    #ask {
+        display: none;
+        justify-content: center;
+        align-items: center;
+        margin-top: 20px;
+        gap: 5px;
+    }
+    
+    #alert {
+        display: none;
+        justify-content: center;
+        align-items: center;
+        margin-top: 20px;
+        gap: 5px;
+    }
+    #write {
+        display: none;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        margin-top: 20px;
+        gap: 5px;
+    }
+    #bankDialogue {
+        display: none;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        margin-top: 20px;
+        gap: 5px;
+    }
+    div input {
+        font-family: century;
+        text-align: center;
+        background-color: transparent;
+        border: none;
+        border-bottom: 3px solid black;
+        width: calc(300px*0.8);
+        outline: none;
+        color: black
+    }
+
+    #dialogueBox select {
+        color:gray;
+        text-shadow: none;
+        border-color: black;
+    }
+    #playerSelect {
+        display: flex;
+        color:gray;
+        text-shadow: none;
+        border-color: black;
+    }
+    #tradeSelectContainer {
+        display: none;
+    }
+    #tradeSelect {
+        margin-top: 10px;
+        display: flex;
+    }
+
+    #tradeSelect button {
+        margin-top: 10px;
+    }
+
+    #playerAmount {
+        margin-top: 10px;
+        display:flex;
+    }
+
+    @keyframes pop {
+        0% {
+            transform: scale(0.75);
+        }
+        50% {
+            transform: scale(1.2);
+        }
+        100% {
+            transform: scale(1);
+        }
+    }
+    
+    #ownedproperties {
+        font-size: 2px;
+        color:black;
+        height: 6px;
+    }
+    #scanWrite {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        width: 275px;
+        height: 125px;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 5;
+        border: 2px solid black;
+        border-radius: 5px;;
+        font-size: 10px;
+        color: white;
+        backdrop-filter: blur(8px);
+    }
+
+    #scanWrite img {
+        filter:brightness(0) saturate(100%) invert(1);
+        width:100px;
+    }
+    #closeBtn {
+        position: relative;
+        width: 100%;
+    }
+    button#dialogueBack {
+        position: absolute;
+        right: 0px;
+        top: -140px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 25px;
+        height: 25px;
+        background-color: transparent;
+        border: none;
+        color: red;
+        text-shadow: none;
+    }
+    #bankFeedback {
+        font-size: 10px;
+    }
+}
