@@ -31,10 +31,12 @@ document.addEventListener('deviceready', () => {
             nfc.write(
               [record],
               () => {
+                playbeep();
                 document.getElementById('userID').value = "";
                 writeFeedback.textContent = "Data Assigned Successfully..."; 
                 autoHide(writeScan);
                 players[writes+1].name = writeText;
+                players[writes+1].cash = 15000;
                 writes++;
                 dialogueText.textContent = `Enter username for Player ${writes+1}...`
                 if (writes == maxwrite) {
@@ -51,6 +53,7 @@ document.addEventListener('deviceready', () => {
 
           // Otherwise, handle read
           if (readOnly == true && ndefMessage && ndefMessage.length > 0) {
+            playbeep();
             const payload = ndefMessage[0].payload;
             const text = nfc.bytesToString(payload).substring(3); // Skip language code
             storedtext = text;
@@ -110,63 +113,63 @@ playerSelectElement.addEventListener('change', () => {
 let players = [
     {
         name: "- - -   ",
-        cash: 15000,
+        cash: 0,
         properties: [], //Owned Properties
         utilities: [], //Owned Utilities
         stations: [] //Owned Stations
     },
     {
         name: "",
-        cash: 15000,
+        cash: 0,
         properties: [], //Owned Properties
         utilities: [], //Owned Utilities
         stations: [] //Owned Stations
     },
     {
         name: "",
-        cash: 15000,
+        cash: 0,
         properties: [],
         utilities: [],
         stations: []
     },
     {
         name: "",
-        cash: 15000,
+        cash: 0,
         properties: [],
         utilities: [],
         stations: []
     },
     {
         name: "",
-        cash: 15000,
+        cash: 0,
         properties: [],
         utilities: [],
         stations: []
     },
     {
         name: "",
-        cash: 15000,
+        cash: 0,
         properties: [],
         utilities: [],
         stations: []
     },
     {
         name: "",
-        cash: 15000,
+        cash: 0,
         properties: [],
         utilities: [],
         stations: []
     },
     {
         name: "",
-        cash: 15000,
+        cash: 0,
         properties: [],
         utilities: [],
         stations: []
     },
     {
         name: "",
-        cash: 15000,
+        cash: 0,
         properties: [],
         utilities: [],
         stations: []
@@ -825,7 +828,7 @@ function payRent() {
         players[ownerIndex].cash += rentAmount;
         dialogueText.textContent = `Paid $${rentAmount} in rent to ${players[ownerIndex].name}...`;
     }
-    if(selectedOption === "utility" && !utiliies[utilSelectVal].isMortgaged) {
+    if(selectedOption === "utility" && !utilities[utilSelectVal].isMortgaged) {
         players[ownerIndex].cash += rentAmount;
         dialogueText.textContent = `Paid $${rentAmount} in rent to ${players[ownerIndex].name}...`;
     }
@@ -897,16 +900,12 @@ function addTradeOptions() {
 
         player.utilities.forEach(utilIndex => {
             const util = utilities[utilIndex];
-            if(!isPropertyMonopolized(utilIndex)) {
-                addOption("tradeSelect", `utility-${index}-${utilIndex}`, `${player.name} - ${util.name}`,false);
-            }
+            addOption("tradeSelect", `utility-${index}-${utilIndex}`, `${player.name} - ${util.name}`,false);
         });
 
         player.stations.forEach(stationIndex => {
             const stat = stations[stationIndex];
-            if(!isPropertyMonopolized(stationIndex)) {
-                addOption("tradeSelect", `station-${index}-${stationIndex}`, `${player.name} - ${stat.name}`,false);
-            }
+            addOption("tradeSelect", `station-${index}-${stationIndex}`, `${player.name} - ${stat.name}`,false);
         });
     });
 }
@@ -966,7 +965,6 @@ function tradeSelectedProperty() {
         otherAsset = stations[otherAssetIndex];
     } else {
         dialogueText.textContent = "Invalid target asset.";
-        return;
     }
 
     // Calculate value difference
@@ -1179,7 +1177,7 @@ propertybtn.addEventListener("change", () => {
             choicePurchase.disabled = false;
         }
 
-        if(properties[SelectionValue].isOwned == playerScannedIndex || properties[SelectionValue].isOwned == 0 || players[playerScannedIndex].cash < properties[SelectionValue].houseCost) {
+        if(properties[SelectionValue].isOwned == playerScannedIndex || properties[SelectionValue].isOwned == 0) {
             choiceRent.disabled = true;
         } else {
             choiceRent.disabled = false;
@@ -1240,7 +1238,7 @@ utilitybtn.addEventListener("change", () => {
         choicePurchase.disabled = true;
         choiceRent.disabled = true;
         choiceMortgage.disabled = false;
-        choiceTrade.disabled = utilities[SelectionValue].isMortgaged || isPropertyMonopolized(propertySelectVal);
+        choiceTrade.disabled = utilities[SelectionValue].isMortgaged;
         choiceUpgrade.disabled = true;
         choiceSell.disabled = utilities[SelectionValue].isMortgaged;
         console.log("Owner's Choice");
@@ -1303,7 +1301,7 @@ stationbtn.addEventListener("change", () => {
         choicePurchase.disabled = true;
         choiceRent.disabled = true;
         choiceMortgage.disabled = false;
-        choiceTrade.disabled = stations[SelectionValue].isMortgaged || isPropertyMonopolized(propertySelectVal);
+        choiceTrade.disabled = stations[SelectionValue].isMortgaged;
         choiceUpgrade.disabled = true;
         choiceSell.disabled = stations[SelectionValue].isMortgaged;
         console.log("Owner's Choice");
@@ -1600,4 +1598,68 @@ function isLowestDevelopmentInMonopoly(propertyIndex) {
 
     if (minDev === maxDev) return false; // All equal
     return currentDev === minDev;
+}
+const endGame = document.getElementById('endGame');
+endGame.addEventListener("click", () => {
+    console.log("End Game clicked");
+    dialogueContainer.style.display = "flex";
+    clearDialogue();
+    dialogueAskContainer.style.display = "flex";
+    dialogueText.textContent = "Are you sure you want to end the game?";
+    askQuery(() => { sellAllProperties() });
+});
+
+function sellAllProperties() {
+    players.forEach(player => {
+        if(player.properties.length > 0) {
+            player.properties.forEach(property => {
+                player.cash += properties[property].propertyValue;
+                properties[property] = defaultProperties[property];
+            })
+            player.properties = [];
+        } else {
+            console.log(player.name, " has no property")
+        }
+
+        if(player.utilities.length > 0) {
+            player.utilities.forEach(utility => {
+                player.cash += utilities[utility].propertyValue;
+                utilities[utility] = defaultUtilities[utility];
+            })
+            player.utilities = [];
+        } else {
+            console.log(player.name, " has no utility")
+        }
+
+        if(player.stations.length > 0) {
+            player.stations.forEach(station => {
+                player.cash += stations[station].propertyValue;
+                stations[station] = defaultStations[station];
+            })
+            player.stations = [];
+        } else {
+            console.log(player.name, " has no station")
+        }
+    })
+    let highestCash = 0;
+    let highestCashIndex = -1;
+    players.forEach((player, index) => {
+        if(player.cash > highestCash) {
+            highestCashIndex = index;
+            highestCash = player.cash;
+        }
+    })
+    dialogueAskContainer.style.display = "none";
+    dialogueText.textContent = `Ended the game with ${players[highestCashIndex].name} having $${highestCash}`;
+    propertybtn.disabled = true;
+    utilitybtn.disabled = true;
+    stationbtn.disabled = true;
+    bankBtn.disabled = true;
+    endGame.disabled = true;
+    autoHide(dialogueContainer);
+}
+
+function playbeep() {
+    const audio = new Audio('../assets/audios/press.mp3');
+    audio.play();
 }

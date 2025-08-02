@@ -221,7 +221,7 @@
         display: flex;
         justify-content: center;
         flex-direction: column;
-        height: 150px;
+        height: fit-content;
         gap: 2px;
         background-color: rgba(0, 0, 0, 0.5);
         border-radius: 3px;
@@ -402,5 +402,8 @@
     }
     #bankFeedback {
         font-size: 10px;
+    }
+    #dialogueText {
+        width: 90%;
     }
 }
